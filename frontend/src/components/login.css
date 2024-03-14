@@ -1,0 +1,14 @@
+#error {
+  display: none;
+  animation: mistake 3s;
+}
+
+@keyframes mistake {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
