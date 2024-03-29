@@ -2,7 +2,10 @@ import app from "express";
 import Pin from "../models/pin.js";
 import upload from "../middleware/upload.js";
 import User from "../models/user.js";
+import path from "path";
 const router = app.Router();
+import fs from "fs";
+
 
 router.post("/post", upload.single("image"), async (req, res) => {
   try {
@@ -238,10 +241,25 @@ router.get("/post", async (req, res) => {
 router.delete("/delete", async (req, res) => {
   try {
     const { imageId } = req.query;
-    const imageExists = await Pin.findByIdAndDelete(imageId);
-    if (imageExists)
-      return res.status(200).json({ message: "Deleted Successfully" });
-    res.status(200).json({ message: "Image not found" });
+    const imageExists = await Pin.findByIdAndDelete(imageId); // Delete document from MongoDB
+    if (imageExists) {
+      const imageName = imageExists.image;
+      fs.unlink(
+        path.resolve("public", "uploads", `${imageName.slice(15)}`),
+        (err) => {
+          if (err) {
+            console.error(err);
+            return res
+              .status(500)
+              .json({ error: "Failed to delete image file" });
+          }
+          // If deletion is successful
+          return res.status(200).json({ message: "Deleted Successfully" });
+        }
+      );
+    } else {
+      res.status(404).json({ message: "Image not found" });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
