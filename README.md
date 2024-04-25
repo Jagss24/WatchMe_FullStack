@@ -111,7 +111,9 @@ Start the frontend
 
 **Fullstack(frontend) deployment on vercel** [Vercel link](https://watchme-lake.vercel.app/)
 
+## Preview of the Project
 
+[Video Link](https://drive.google.com/file/d/1po-PnaQHMSWGvj5HMMYNNvL08lcWf3tQ/view?usp=sharing)
 
 ## Supports
 
